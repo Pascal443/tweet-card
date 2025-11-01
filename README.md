@@ -23,5 +23,10 @@ Generate Twitter-style quote cards with:
 
 Demo
 
+![TweetCard Preview](assets/images/tweet-card.PNG)
 
-Outpuy
+Output
+
+![TweetCard Preview](assets/images/tweet-card-output.PNG)
+
+![TweetCard Preview](assets/images/tweet-card-output-2.PNG)
