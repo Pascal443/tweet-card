@@ -1,6 +1,9 @@
 # tweet-card
 Twitter-Style Quote Card Generator
 A simple web-based tool that lets users create Twitter-style quote cards with custom text, name, username, profile picture, background color, and verified status. Users can preview, download, and share their generated cards.
+
+Visit the live project here:  
+👉 https://pascal443.github.io/tweet-card/
 Generate Twitter-style quote cards with:
 
 - Custom quotes/advice
@@ -30,3 +33,7 @@ Output
 ![TweetCard Preview](assets/images/tweet-card-output.PNG)
 
 ![TweetCard Preview](assets/images/tweet-card-output-2.PNG)
+
+Visit the live project here:  
+👉 https://pascal443.github.io/tweet-card/
+Generate Twitter-style quote cards with:
