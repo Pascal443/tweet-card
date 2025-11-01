@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Twitter-Style Quote Card Generator</title>
+<link rel="stylesheet" href="assets/css/styles.css"/>
+</head>
+<body>
+<img src="assets/images/tweetcards.png" alt="tweet-card logo"/>
+<h2>Twitter-Style Quote Card Generator</h2>
+
+<div class="form-box">
+    <label>Enter your quote/advice:</label>
+    <textarea id="quoteText" rows="3" placeholder="Type your quote..."></textarea>
+    
+    <label>Your name:</label>
+    <input type="text" id="name" placeholder="yourname"> 
+
+    <label>Your @username:</label>
+    <input type="text" id="username" placeholder="@yourhandle">
+
+    <label>Choose outer background color:</label>
+    <input type="color" id="bgColor" value="#add8e6">
+
+    <label>Upload profile photo (optional):</label>
+    <input type="file" id="profilePic" accept="image/*">
+    
+    <label>Account Verified:</label>
+    <select id="statusDropdown">
+    <option value="normal">Normal</option>
+    <option value="verified">Verified</option>
+</select>
+    <button onclick="generateCard()">Preview Card</button>
+</div>
+
+<div id="preview" style="display:none;">
+    <div class="outer" id="outer">
+        <div class="card" id="card">
+            <div class="profile">
+                <img id="profileImg" src="https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png" alt="profile">
+                <div>
+                    <div class="name-container">
+    <div class="name" id="displayName">User</div>
+    <img id="verifiedIcon" src="assets/images/verified-badge.png" alt="Verified" style="display:none; width:16px; height:16px; margin-left:4px; vertical-align:middle;">
+</div>   <div class="handle" id="displayHandle">@user</div>
+                </div>
+            </div>
+            <div class="quote-text" id="displayQuote"></div>
+            <div class="time-location">
+            <p class="timestamp" id="timestamp"></p> 
+            <p id="location">&nbsp; From Earth, with love</p>
+</div>
+
+            <div class="actions">
+               <div><img src="assets/images/comments.png" class="icon"></div>
+                <div><img src="assets/images/retweet.png" class="icon"></div>
+                <div><img src="assets/images/like.png" class="icon"></div>
+
+            </div>
+        </div>
+       <div id="watermark">#tweetCard</div>
+    </div>
+</div>
+    <button onclick="downloadCard()">Download Card</button>
+</div>
+
+<canvas id="canvas" width="600" height="400" style="display:none;"></canvas>
+
+<script>
+function generateCard() {
+    const quote = document.getElementById('quoteText').value.trim();
+    const name = document.getElementById('name').value.trim();
+    const username = document.getElementById('username').value.trim();
+    const color = document.getElementById('bgColor').value;
+    const dropdown = document.getElementById('statusDropdown').value;
+    const verifiedIcon = document.getElementById('verifiedIcon');
+
+  
+    if (!quote || !username) {
+        alert("Please fill in both the quote and username.");
+        return;
+    }
+  if (dropdown === 'verified') {
+        verifiedIcon.style.display = 'inline';
+    } else {
+        verifiedIcon.style.display = 'none';
+    }
+    document.getElementById('displayQuote').innerText = quote;
+    document.getElementById('displayName').innerText = name;
+    document.getElementById('displayHandle').innerText = username;
+    document.getElementById('timestamp').innerText = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        + " · " + new Date().toLocaleDateString();
+
+    document.getElementById('outer').style.background = color;
+
+    document.getElementById('location').style.color = color;
+
+    const profileInput = document.getElementById('profilePic');
+    const profileImg = document.getElementById('profileImg');
+    if (profileInput.files && profileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => { profileImg.src = e.target.result; };
+        reader.readAsDataURL(profileInput.files[0]);
+    }
+
+    document.getElementById('preview').style.display = 'block';
+}
+
+function downloadCard() {
+    const outer = document.getElementById('outer');
+    html2canvas(outer).then(canvasResult => {
+        const link = document.createElement('a');
+           // Generate a random filename
+        const randomName = 'tweet_card_' + Date.now() + '_' + Math.floor(Math.random() * 1000) + '.png';
+    
+        link.download = randomName;
+        link.href = canvasResult.toDataURL('image/png');
+        link.click();
+    });
+}
+
+// load html2canvas
+const script = document.createElement('script');
+script.src = "https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js";
+document.head.appendChild(script);
+</script>
+
+</body>
+</html>
